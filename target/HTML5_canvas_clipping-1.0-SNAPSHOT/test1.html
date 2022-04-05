@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<!--
+Project name(项目名称)：HTML5_canvas_clipping
+  File name(文件名): test1
+  Authors(作者）: mao
+  Author QQ：1296193245
+  GitHub：https://github.com/maomao124/
+  Date(创建日期)： 2022/4/5
+  Time(创建时间)： 10:47
+  Description(描述)： 无
+-->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas {
+            border: 1px solid turquoise;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="400" height="400">
+    浏览器不支持画布功能
+</canvas>
+
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+    ctx.beginPath();
+    ctx.arc(200, 200, 200, 0, Math.PI * 2, true);
+    //clip CSS 属性定义元素的可见部分。
+    // clip属性仅适用于绝对定位的元素——即具有position:absolute或position:fixed的元素。
+    ctx.clip();
+    ctx.closePath();
+
+    ctx.fillStyle = "darkblue";
+    //fillRect()方法绘制一个根据当前fillStyle填充的矩形。
+    ctx.fillRect(0, 0, 400, 400);
+
+    //画五角星
+    for (var i = 0; i < 20; i++)
+    {
+        var x = Math.random() * 400;
+        var y = Math.random() * 400;
+        drawStar(x, y, Math.random()*5+10, "gold", ctx);
+    }
+
+    //绘制五角星的方法
+    function drawStar(dx, dy, size, color, ctx)
+    {
+        ctx.beginPath();
+        for (var i = 0; i < 5; i++)
+        {
+            //转换弧度
+            var radians = Math.PI / 5 * 4 * i;
+            //计算下一个坐标位置
+            var x = Math.sin(radians) * size + dx;
+            var y = Math.cos(radians) * size + dy;
+            //绘制路径
+            ctx.lineTo(x, y);
+        }
+        //结束路径绘制
+        ctx.closePath();
+        //设置画笔颜色
+        ctx.fillStyle = color;
+        //为n角星填充颜色
+        ctx.fill();
+    }
+</script>
+</body>
+</html>
