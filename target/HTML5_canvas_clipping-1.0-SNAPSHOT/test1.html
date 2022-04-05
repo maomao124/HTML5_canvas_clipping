@@ -15,22 +15,41 @@ Project name(项目名称)：HTML5_canvas_clipping
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="animate.css">
     <style>
+
+        body {
+            background-color: #2d2c2e;
+        }
+
+        .p {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
         canvas {
-            border: 1px solid turquoise;
+            border: 2px dashed turquoise;
         }
     </style>
 </head>
 <body>
-<canvas id="canvas" width="400" height="400">
-    浏览器不支持画布功能
-</canvas>
+
+<div class="p">
+    <canvas class="animated slideInDown" id="canvas" width="800" height="800">
+        浏览器不支持画布功能
+    </canvas>
+</div>
 
 <script>
+
+    var width_and_height = 800
+
     var canvas = document.getElementById("canvas");
     var ctx = canvas.getContext("2d");
     ctx.beginPath();
-    ctx.arc(200, 200, 200, 0, Math.PI * 2, true);
+    ctx.arc(width_and_height / 2, width_and_height / 2, width_and_height / 2, 0, Math.PI * 2, true);
     //clip CSS 属性定义元素的可见部分。
     // clip属性仅适用于绝对定位的元素——即具有position:absolute或position:fixed的元素。
     ctx.clip();
@@ -38,14 +57,14 @@ Project name(项目名称)：HTML5_canvas_clipping
 
     ctx.fillStyle = "darkblue";
     //fillRect()方法绘制一个根据当前fillStyle填充的矩形。
-    ctx.fillRect(0, 0, 400, 400);
+    ctx.fillRect(0, 0, width_and_height, width_and_height);
 
     //画五角星
-    for (var i = 0; i < 20; i++)
+    for (var i = 0; i < width_and_height / 10; i++)
     {
-        var x = Math.random() * 400;
-        var y = Math.random() * 400;
-        drawStar(x, y, Math.random()*5+10, "gold", ctx);
+        var x = Math.random() * width_and_height;
+        var y = Math.random() * width_and_height;
+        drawStar(x, y, Math.random() * 10 + 5, "gold", ctx);
     }
 
     //绘制五角星的方法
@@ -54,19 +73,13 @@ Project name(项目名称)：HTML5_canvas_clipping
         ctx.beginPath();
         for (var i = 0; i < 5; i++)
         {
-            //转换弧度
             var radians = Math.PI / 5 * 4 * i;
-            //计算下一个坐标位置
             var x = Math.sin(radians) * size + dx;
             var y = Math.cos(radians) * size + dy;
-            //绘制路径
             ctx.lineTo(x, y);
         }
-        //结束路径绘制
         ctx.closePath();
-        //设置画笔颜色
         ctx.fillStyle = color;
-        //为n角星填充颜色
         ctx.fill();
     }
 </script>
